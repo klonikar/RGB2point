@@ -226,3 +226,92 @@ def predict(model, image_path, save_path):
 
     export_to_ply(output[0], save_path)
     print(f"Image from {image_path} saved to {save_path}")
+
+import matplotlib.pyplot as plt
+import argparse
+
+def renderPointCloud(fileName, renderingLib = 'o3d'):
+    if fileName.endswith('.npy'):
+        try:
+            points = np.load(fileName)
+            if points.shape[1] != 3:
+                print("Error: The point cloud data must have 3 columns (x, y, z).")
+                return
+            point_cloud = o3d.geometry.PointCloud()
+            point_cloud.points = o3d.utility.Vector3dVector(points)
+        except FileNotFoundError:
+            print(f"Error: {fileName} not found. Please provide the correct path.")
+            return
+    elif fileName.endswith('.ply'):
+        try:
+            point_cloud = o3d.io.read_point_cloud(fileName)
+            points = np.asarray(point_cloud.points)
+            if points.shape[0] == 0:
+                print(f"Error: {fileName} not found. Please provide the correct path.")
+                return
+        except:
+            print(f"Error: {fileName} not found. Please provide the correct path.")
+            return
+
+    # Check if the data has the correct shape
+    print(f'Shape of point cloud: {points.shape}')
+    #unique_vals = np.unique(points)
+    #num_uniques = len(unique_vals)
+    #print(f'unique values in point cloud: {unique_vals}, number of values {num_uniques}')
+
+    if renderingLib == 'o3d':
+        o3d.visualization.draw_geometries([point_cloud])
+    elif renderingLib == 'plt':
+        # Separate the x, y, and z coordinates
+        x = points[:, 0]
+        y = points[:, 1]
+        z = points[:, 2]
+
+
+        # Create a 3D plot
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+
+        # Scatter plot the points
+        ax.scatter(x, y, z, s=2)  # s is the size of the points
+
+        # Set labels
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.set_zlabel('Z')
+
+        # Show the plot
+        plt.title('Point Cloud Visualization')
+        plt.show()
+
+if __name__ == '__main__':
+    # Load the .npy file
+    fileName = 'ShapeNet_pointclouds/04379243/f84b49a7d9e6f31ae0c8359faeb78bbe/pointcloud_2048.npy'
+    '''
+    fileName = 'ShapeNet_pointclouds/04379243/f80427c47d2fc4169ccce4c6d5bb195f/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/04379243/f86ad1699aa2da6dc955e5ed03ef3a2f/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/04379243/f99ebf0f053140525a0e5699b3040a35/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02691156/fe23572aac36c84761cfaa00f7177470/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02691156/dd4da4309c12d47bc2c2c81e2232aa95/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02691156/676e568ab8e286ad67c54439d6177032/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02691156/10eeb119fd5508e0d6d949577c389a84/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02958343/fcbf9e1dd55ab172ce27281f3b76d1f5/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02958343/e5fea12dcf4bb5b250c1ed9db9037190/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02958343/84e4dd1c6306a582a97e62e669e9544d/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02958343/4a5bd025a2500b3b3967c36b4916b4de/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02958343/fc28356cd7948b90466f54ef02e60f2f/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02958343/fc28356cd7948b90466f54ef02e60f2f/pointcloud_1024.npy'
+    fileName = 'ShapeNet_pointclouds/02958343/707dd25fa8ebe7b73a6cc070f17a46d7/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02958343/437f3ed08c32f2b9092ea6b09901598/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02958343/163a2c8ead6872ad7ae33d942430658c/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02958343/2d6c360e7d8ff4162e603610d34efc63/pointcloud_2048.npy'
+    fileName = 'ShapeNet_pointclouds/02958343/38afcfa425487df5fff77b62a794a2d8/pointcloud_2048.npy'
+    '''
+    fileName = '1013.ply'
+
+    parser = argparse.ArgumentParser("vis_point_cloud")
+    parser.add_argument('--file', default=fileName, type=str, help='Point Cloud file name')
+    parser.add_argument('--lib', default='o3d', type=str, help='o3d/plt')
+
+    args = parser.parse_args()
+    renderPointCloud(args.file, args.lib)

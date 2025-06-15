@@ -10,6 +10,7 @@ class PCDataset(Dataset):
     def __init__(self, stage, transform=None):
         self.transform = transform
         self.stage = stage
+        self.basedir = '/content/RGB2point'
 
         if stage == "train":
             image_paths = f"split/shapenet_train.txt"
@@ -34,9 +35,9 @@ class PCDataset(Dataset):
 
         for c in ["02958343", "02691156", "03001627"]:
             for label in labels:
-                volume_path = f"C:\\Users\\appro\\Documents\\ShapeNet\\ShapeNet_pointclouds\\{c}\\{label}\\pointcloud_1024.npy"
+                volume_path = f"{self.basedir}/{c}/{label}/pointcloud_1024.npy"
                 files = glob(
-                    f"C:\\Users\\appro\\Documents\\ShapeNet\\ShapeNetRendering\\{c}\\{label}\\rendering\\*.png"
+                    f"{self.basedir}/{c}/{label}/rendering/*.png"
                 )
                 for file in files:
                     if self.stage == "train":
@@ -45,7 +46,7 @@ class PCDataset(Dataset):
 
                 if self.stage == "test":
                     if os.path.exists(volume_path) and len(files) > 1:
-                        test_image_path = f"C:\\Users\\appro\\Documents\\ShapeNet\\ShapeNetRendering\\{c}\\{label}\\rendering\\00.png"
+                        test_image_path = f"{self.basedir}/{c}/{label}/rendering/00.png"
                         self.data.append([c, label, test_image_path])
 
     def __len__(self):
@@ -72,7 +73,7 @@ class PCDataset(Dataset):
 
         image_files = [image]
         pc = np.load(
-            f"C:\\Users\\appro\\Documents\\ShapeNet\\ShapeNet_pointclouds\\{category}\\{label}\\pointcloud_1024.npy"
+            f"{self.basedir}/{category}/{label}/pointcloud_1024.npy"
         )
         pc = self.normalize_point_cloud(pc)
 

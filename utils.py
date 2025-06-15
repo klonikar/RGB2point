@@ -2,6 +2,7 @@ from torch.utils.data import Dataset
 from glob import glob
 import os
 import torch
+import torch.nn as nn
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
 

@@ -15,6 +15,7 @@ pip install wandb
 pip install open3d
 pip install scikit-learn
 pip install open3d
+pip install chamferdist
 ```
 
 ## Training
@@ -25,7 +26,7 @@ python train.py
 ## Training Data
 Please download 1)  [Point cloud data zip file](https://drive.google.com/file/d/1R7TXnBvVir8OCXPE5f2kck6Enl0gdMUQ/view?usp=sharing), 2) [Rendered Images](https://drive.google.com/file/d/1t_rlV1BwitvICap_2ubd5oqL_6Yq-Drn/view?usp=sharing), and 3) [Train/test filenames](https://drive.google.com/drive/folders/1jBPd1YBJwzgVpolT-yA0g8XxYJmb2_s-?usp=sharing).
 
-Next, modify the downloaded 1), 2), 3) file paths to [L#36](https://github.com/JaeLee18/RGB2point/blob/7b29188ea8b4c92fcc5f48bd0066e901881ce1f7/utils.py#L36), [L#38](https://github.com/JaeLee18/RGB2point/blob/7b29188ea8b4c92fcc5f48bd0066e901881ce1f7/utils.py#L38), [L#14](https://github.com/JaeLee18/RGB2point/blob/7b29188ea8b4c92fcc5f48bd0066e901881ce1f7/utils.py#L14) and [L#16](https://github.com/JaeLee18/RGB2point/blob/7b29188ea8b4c92fcc5f48bd0066e901881ce1f7/utils.py#L16).
+Next, set the environment variable `PCDATASET_BASEDIR` to point to the downloaded dataset directory. Typically, you can create a directory `dataset` and unzip all the above files there. Then set env var `PCDATASET_BASEDIR` to `dataset`
 
 ## Pretrained Model
 Download the model trained on Chair, Airplane and Car from ShapeNet.

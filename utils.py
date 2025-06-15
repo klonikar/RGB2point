@@ -13,9 +13,9 @@ class PCDataset(Dataset):
         self.basedir = '/content/RGB2point'
 
         if stage == "train":
-            image_paths = f"split/shapenet_train.txt"
+            image_paths = f"{self.basedir}/split/shapenet_train.txt"
         elif stage == "test":
-            image_paths = f"split/shapenet_test.txt"
+            image_paths = f"{self.basedir}/split/shapenet_test.txt"
 
         with open(image_paths) as caption_file:
             self.filenames = caption_file.readlines()

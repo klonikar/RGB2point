@@ -14,6 +14,7 @@ pip install accelerate
 pip install wandb
 pip install open3d
 pip install scikit-learn
+pip install open3d
 ```
 
 ## Training

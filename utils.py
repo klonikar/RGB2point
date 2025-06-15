@@ -10,7 +10,7 @@ class PCDataset(Dataset):
     def __init__(self, stage, transform=None):
         self.transform = transform
         self.stage = stage
-        self.basedir = os.environ.get('PCDATASET_BASEDIR', '/content/RGB2point')
+        self.basedir = os.environ.get('PCDATASET_BASEDIR', '/content/RGB2point/dataset')
 
         if stage == "train":
             image_paths = f"{self.basedir}/split/shapenet_train.txt"

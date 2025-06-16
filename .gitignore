@@ -1,2 +1,5 @@
 dataset/**
 *.pth
+**/__pycache__
+result/*
+wandb/*

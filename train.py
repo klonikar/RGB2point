@@ -15,7 +15,7 @@ from tqdm import tqdm
 
 from utils import PCDataset, chamfer_distance, EMDLoss, fscore
 from model import PointCloudNet
-
+import os
 
 
 if __name__ == "__main__":
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     threshold = 0.001
     alpha = 5.0
 
-    num_epochs = 1000
+    num_epochs = int(os.environ.get('NUM_EPPCHS', 3))
 
     accelerator.init_trackers(project_name="wacv_pc1024", config={})
 
